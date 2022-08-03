@@ -1,0 +1,34 @@
+<div class="main-div">
+    <table class="table table-striped" >
+        <tbody>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th style="width: 25%;">Email id</th>
+                <th>Password</th>
+                <th style="width: 15%;">Confirm Password</th>
+                <th>Mobile Number</th>
+                <th>Action</th>
+            </tr>
+            <tr [formGroup]="userDetail">
+                <td></td>
+                <td><input type="text" formControlName="name"></td>
+                <td><input style="width: 100%;" type="text" formControlName="emailId"></td>
+                <td><input type="text" formControlName="password"></td>
+                <td><input type="text" formControlName="confirmPassword"></td>
+                <td><input type="number" formControlName="mobileNumber"></td>
+                <td><span><button *ngIf="!IsUpdate" (click)="add()">Add</button> <button *ngIf="IsUpdate" (click)="update()">Update</button> <button (click)="remove()">Delete</button></span></td>
+            </tr>
+            <tr *ngFor="let item of userDetailData;let i = index" (click)="patchData(item,i)">
+                <td>{{i + 1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.emailId}}</td>
+                <td>{{item.password}}</td>
+                <td>{{item.confirmPassword}}</td>
+                <td>{{item.mobileNumber}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button (click)="submit()">Submit</button>
+</div>
