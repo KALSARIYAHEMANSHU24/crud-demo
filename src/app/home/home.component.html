@@ -1,5 +1,5 @@
 <div class="main-div">
-    <table class="table table-striped" >
+    <table class="table table-striped">
         <tbody>
             <tr>
                 <th>#</th>
@@ -12,12 +12,33 @@
             </tr>
             <tr [formGroup]="userDetail">
                 <td></td>
-                <td><input type="text" formControlName="name"></td>
-                <td><input style="width: 100%;" type="text" formControlName="emailId"></td>
-                <td><input type="text" formControlName="password"></td>
-                <td><input type="text" formControlName="confirmPassword"></td>
-                <td><input type="number" formControlName="mobileNumber"></td>
-                <td><span><button *ngIf="!IsUpdate" (click)="add()">Add</button> <button *ngIf="IsUpdate" (click)="update()">Update</button> <button (click)="remove()">Delete</button></span></td>
+                <td><input type="text" formControlName="name"><br><span *ngIf="userDetail.controls.name.errors?.required
+                    &&
+                    userDetail.controls.name.touched" style="color:red">Name is required</span></td>
+                <td><input style="width: 100%;" type="text" formControlName="emailId"><br><span *ngIf="userDetail.controls.name.errors?.required
+                    &&
+                    userDetail.controls.emailId.touched" style="color:red">Email is required</span><span
+                        *ngIf="userDetail.controls.emailId.errors?.pattern" style="color:red">Email Id is not
+                        valid</span></td>
+                <td><input type="password" formControlName="password" maxlength="8"> <br><span *ngIf="userDetail.controls.password.errors?.required
+                    &&
+                    userDetail.controls.password.touched" style="color:red">Password is required</span></td>
+                <td><input type="text" formControlName="confirmPassword" maxlength="8"
+                        (change)="checkPassword($event)"><br><span *ngIf="userDetail.controls.confirmPassword.errors?.required
+                    &&
+                    userDetail.controls.confirmPassword.touched" style="color:red">Confirm Password is required</span>
+
+                    <span *ngIf="IsNotSame" style="color:red">Password is not valid</span>
+                </td>
+                <td><span><input type="text" disabled value="+91" style="width: 14%;"><input type="text" 
+                            formControlName="mobileNumber" minlength="10" maxlength="10"></span><br><span *ngIf="userDetail.controls.mobileNumber.errors?.required
+                            &&
+                            userDetail.controls.mobileNumber.touched" style="color:red">Mobile number is
+                        required</span><span *ngIf="userDetail.controls.mobileNumber.errors?.pattern" style="color:red">Invalid Mobile number</span></td>
+                <td style="width: 10%;"><span><button *ngIf="!IsUpdate" (click)="add()" class="margin"><i
+                                class="fa-solid fa-plus"></i></button> <button *ngIf="IsUpdate" class="margin"
+                            (click)="update()"><i class="fa-solid fa-plus"></i></button> <button style="color: red;"
+                            (click)="remove()"><i class="fa-solid fa-trash"></i></button></span></td>
             </tr>
             <tr *ngFor="let item of userDetailData;let i = index" (click)="patchData(item,i)">
                 <td>{{i + 1}}</td>

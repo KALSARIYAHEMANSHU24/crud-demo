@@ -9,39 +9,53 @@ import { SharedService } from '../shared/shared/shared.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  userDetail !: FormGroup;
-  userDetailData : any = [];
+  userDetail: FormGroup | any;
+  userDetailData: any = [];
   index: any;
   IsUpdate: boolean = false;
-  constructor(public sharedService:SharedService, public router: Router) { }
+  IsNotSame: boolean = false;
+  constructor(public sharedService: SharedService, public router: Router) { }
 
   ngOnInit(): void {
     this.initUserForm();
   }
-  initUserForm(){
+  initUserForm() {
     this.userDetail = new FormGroup({
-      name : new FormControl('', Validators.required),
-      emailId: new FormControl('', [Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]),
+      name: new FormControl('', Validators.required),
+      emailId: new FormControl('', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]),
       password: new FormControl('', Validators.required),
       confirmPassword: new FormControl('', Validators.required),
-      mobileNumber:new FormControl('', Validators.required),
+      mobileNumber: new FormControl('', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]),
     })
   }
-  add(){
-    if(this.userDetail.valid){
+  add() {
+    if (this.userDetail.invalid || this.userDetail.invalid) {
+      this.userDetail.markAllAsTouched();
+      return;
+    }
+    if (this.userDetail.valid) {
       this.userDetailData.push(this.userDetail.value);
       this.userDetail.reset();
     }
   }
-  remove(){
-    this.userDetailData.splice(this.index,1);
+
+  checkPassword(event: any) {
+    if (event.target.value == this.userDetail.controls.password.value) {
+      this.IsNotSame = false;
+    }
+    else {
+      this.IsNotSame = true;
+    }
+  }
+  remove() {
+    this.userDetailData.splice(this.index, 1);
     this.userDetail.reset();
   }
-  update(){
-    this.userDetailData.splice(this.index,1,this.userDetail.value);
+  update() {
+    this.userDetailData.splice(this.index, 1, this.userDetail.value);
     this.userDetail.reset();
   }
-  patchData(data:any, index:any){
+  patchData(data: any, index: any) {
     this.index = index;
     this.IsUpdate = true;
     this.userDetail.controls['name'].patchValue(data.name);
@@ -51,7 +65,8 @@ export class HomeComponent implements OnInit {
     this.userDetail.controls['mobileNumber'].patchValue(data.mobileNumber);
   }
 
-  submit(){
+  submit() {
+
     this.sharedService.insertData(this.userDetailData);
     this.router.navigate(["/detail"]);
   }
