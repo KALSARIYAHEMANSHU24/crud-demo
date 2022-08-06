@@ -1,8 +1,23 @@
-.main-div{
-    margin: 5% 5% 0 5%;
+// .main-div{
+//     margin: 5% 5% 0 5%;
+// }
+
+// .margin{
+//     margin-right: 16px;
+//     color: green;
+// }
+
+.form-inputs{
+    margin-top: 1%;
+    border: 1px solid rgba($color: #808080, $alpha: 0.5);
+    border-radius: 5px;
+    padding: 1%;
 }
 
-.margin{
-    margin-right: 16px;
-    color: green;
+.submitButton{
+    margin-top: 1%;
+}
+
+.dataList{
+    margin-top: 2%;
 }

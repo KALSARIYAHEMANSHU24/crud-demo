@@ -1,1 +1,42 @@
-<p>details works!</p>
+<a [routerLink]="['/']" class="btn" style="color: blue;">back to main page</a>
+<div>
+    <table class="table tasble-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Confirm Password</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let item of userDetailsDataFromService; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.emailId }}</td>
+                <td>{{ item.password }}</td>
+                <td>{{ item.confirmPassword }}</td>
+                <td>+91-{{ item.mobileNumber }}</td>
+                <td>
+                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#updateData" (click)="update(item, i)">Update</button>
+                    <button class="btn btn-sm btn-danger" (click)="remove()">Remove</button>
+                </td>
+            </tr>
+            <tr [formGroup]="userDetail">
+                <td></td>
+                <td><input type="text" formControlName="name" /><br /></td>
+                <td><input style="width: 100%" type="text" formControlName="emailId" /></td>
+                <td><input type="password" formControlName="password" maxlength="8" /></td>
+                <td><input type="text" formControlName="confirmPassword" maxlength="8" (change)="checkPassword($event)" /></td>
+                <td><input type="text" disabled value="+91" style="width: 14%" /><input type="text" formControlName="mobileNumber" minlength="10" maxlength="10" /></td>
+                <td>
+                    <button class="btn btn-sm btn-success" (click)="saveChanges()">Save</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

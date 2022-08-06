@@ -11,32 +11,33 @@ import { SharedService } from '../shared/shared/shared.service';
 export class HomeComponent implements OnInit {
   userDetail: FormGroup | any;
   userDetailData: any = [];
+  data : any = [];
   index: any;
   IsUpdate: boolean = false;
   IsNotSame: boolean = false;
+  showForm : boolean = false;
+  submitButtonDisplay : boolean = false;
   constructor(public sharedService: SharedService, public router: Router) { }
 
   ngOnInit(): void {
-    this.initUserForm();
-  }
-  initUserForm() {
+    this.userDetailData = this.sharedService.dataList;
     this.userDetail = new FormGroup({
       name: new FormControl('', Validators.required),
       emailId: new FormControl('', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]),
       password: new FormControl('', Validators.required),
       confirmPassword: new FormControl('', Validators.required),
       mobileNumber: new FormControl('', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]),
-    })
+    })   
   }
+
   add() {
     if (this.userDetail.invalid || this.userDetail.invalid) {
       this.userDetail.markAllAsTouched();
-      return;
     }
     if (this.userDetail.valid) {
       this.userDetailData.push(this.userDetail.value);
       this.userDetail.reset();
-    }
+    }  
   }
 
   checkPassword(event: any) {
@@ -52,6 +53,7 @@ export class HomeComponent implements OnInit {
     this.userDetail.reset();
   }
   update() {
+    this.showForm = true;
     this.userDetailData.splice(this.index, 1, this.userDetail.value);
     this.userDetail.reset();
   }
@@ -66,8 +68,7 @@ export class HomeComponent implements OnInit {
   }
 
   submit() {
-
-    this.sharedService.insertData(this.userDetailData);
-    this.router.navigate(["/detail"]);
+    this.sharedService.setData(this.userDetailData)
+      this.router.navigate(["/detail"]);
   }
 }

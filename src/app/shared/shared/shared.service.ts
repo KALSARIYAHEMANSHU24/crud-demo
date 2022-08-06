@@ -8,7 +8,7 @@ export class SharedService {
   dataList = [];
   constructor() { }
 
-  insertData(userData:any){
+  setData(userData:any){
     this.dataList = userData;
   }
 }
